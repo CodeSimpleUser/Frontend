@@ -42,8 +42,6 @@ export class RegisterComponent implements OnInit{
         this.toastrService.info(response.message)
         localStorage.setItem("token",response.data.token)
         console.log(response)
-      },responseError=>{
-        this.toastrService.error(responseError.error)
       })
     }
   }
