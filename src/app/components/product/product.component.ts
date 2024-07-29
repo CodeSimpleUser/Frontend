@@ -8,13 +8,15 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipePipe } from '../../pipes/filter-pipe.pipe';
 import {  ToastrService } from 'ngx-toastr';
 import { CartService } from '../../services/cart.service';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
     selector: 'app-product',
     standalone: true,
     templateUrl: './product.component.html',
     styleUrl: './product.component.css',
-    imports: [CommonModule, VatAddedPipe,FormsModule, FilterPipePipe,FormsModule
+    imports: [CommonModule, VatAddedPipe,FormsModule, FilterPipePipe
     ]
 })
 export class ProductComponent implements OnInit{
@@ -23,10 +25,13 @@ export class ProductComponent implements OnInit{
   dataLoaded = false;
   filterText="";
 
-  constructor(private productService:ProductService,private activatedRoute:ActivatedRoute,private toastrService:ToastrService,private cartService:CartService) { }
+  constructor(private productService:ProductService,
+    private activatedRoute:ActivatedRoute,
+    private toastrService:ToastrService,
+    private cartService:CartService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params=>{
+    this.activatedRoute.params.subscribe(params=>{  
       if(params["categoryId"]){
         this.getProductsByCategory(params["categoryId"])
       }
@@ -35,7 +40,6 @@ export class ProductComponent implements OnInit{
       }
     })
   }
-
   getProducts() {
     this.productService.getProducts().subscribe(response=>{
       this.products = response.data;
@@ -54,6 +58,11 @@ export class ProductComponent implements OnInit{
     }else{
       this.toastrService.success("Added to the cart",product.productName);
       this.cartService.addToCart(product);
+      console.log("ProductAdded")
     }
+  }
+  Delete(product:Product){
+    this.toastrService.error()
+      
   }
 }

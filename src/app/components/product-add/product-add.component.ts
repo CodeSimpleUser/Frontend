@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormGroup,FormBuilder,FormControl,Validator } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { error } from 'console';
 
 
 @Component({
@@ -25,21 +26,24 @@ export class ProductAddComponent implements OnInit{
   createProductAddForm() {
     this.productAddForm = this.formBuilder.group({
       productName:["",Validators.required],
-      unitPrice: ["",Validators.required],
+      categoryId:["",Validators.required],
       unitsInStock:["",Validators.required],
-      categoryId:["",Validators.required]
+      unitPrice: ["",Validators.required]
     })
   }
   add(){
     if(this.productAddForm.valid){
       let productModel = Object.assign({}, this.productAddForm.value)
       this.productService.add(productModel).subscribe(data=>{
-
-        this.toastrService.success("Product added successfully")
+        console.log(data)
+      
+        this.toastrService.success(data.message)
+      },dataError=>{
+        console.log(dataError.error)
+        this.toastrService.error(dataError.error)
       })
     }else{
-      this.toastrService.error("Form is not completed")
+      this.toastrService.error("Form is not completed") 
     }
   }
-
 }

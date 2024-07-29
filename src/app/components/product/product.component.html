@@ -21,13 +21,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let product of products" > 
+        <tr *ngFor="let product of products | filterPipe:filterText" > 
             <td>{{product.productId}}</td>
             <td>{{product.categoryId}}</td>
-            <td>{{product.productName }}</td>
+            <td>{{product.productName | uppercase }}</td>
             <td>{{product.unitPrice| currency}}</td>
             <td>{{product.unitPrice | vatAdded:18 |currency }}</td>
-            <td>{{product.unitsInStock}}</td>
+            <td>{{product.UnitsInStock}}</td>
             <td><button (click)="addToCart(product)" class="btn btn-success">Add to Basket</button></td>
         </tr>
     </tbody>

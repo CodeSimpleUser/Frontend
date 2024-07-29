@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
-import {FormsModule, ReactiveFormsModule} from "@angular/forms"
+import {FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations"
 
 import { AppComponent } from './app.component';
@@ -14,6 +14,12 @@ import { FilterPipePipe } from './pipes/filter-pipe.pipe';
 import {ToastrModule} from "ngx-toastr";
 import { CartSummaryComponent } from './components/cart-summary/cart-summary.component';
 import { ProductAddComponent } from './components/product-add/product-add.component';
+import { routes } from './app.routes';
+import { RouterModule, ROUTES } from '@angular/router';
+import { validateHeaderName } from 'http';
+import { Router } from 'express';
+import { AuthGuard } from './guards/signin.guard';
+import { SigninComponent } from './components/signin/signin.component';
 
 @NgModule({
   imports: [
@@ -30,7 +36,18 @@ import { ProductAddComponent } from './components/product-add/product-add.compon
     FilterPipePipe,
     CartSummaryComponent,
     ProductAddComponent,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgModule,
+    FormGroup,
+    FormGroupDirective,
+    RouterModule.forRoot([
+      {
+        path:'secured',
+        component: SigninComponent,
+        pathMatch: 'full',
+        canActivate : [AuthGuard]
+      }
+    ])
   ],
 })
 export class AppModule { }

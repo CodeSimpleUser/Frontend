@@ -15,7 +15,7 @@ import { ToastrModule, ToastrService ,} from 'ngx-toastr';
 })
 export class CartSummaryComponent implements OnInit{
 
-  carItems:CartItem[] = [];
+  carItems:CartItem[];
     
   constructor(private cartService:CartService,private toastrService:ToastrService) { }
   
@@ -24,6 +24,7 @@ export class CartSummaryComponent implements OnInit{
   }
   getCart() {
     this.carItems = this.cartService.list();
+
   }
   removeFromCart(product:Product){
     this.cartService.removeFromCart(product);
